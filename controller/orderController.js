@@ -12,7 +12,11 @@ class OrderController {
 
     const orderAt = moment().tz('Asia/Taipei').format();
     const product = await knex(knexfile)('product').select('*').where('id', productId);
-    const afterQuantity = product[0].quantity - quantity;
+    let afterQuantity = -1;
+
+    if (product[0]) {
+      afterQuantity = product[0].quantity - quantity;
+    }
 
     if (afterQuantity < 0) {
       const order = await knex(knexfile)('order').insert({
@@ -27,6 +31,9 @@ class OrderController {
         result: 'error',
         ret: {
           order_id: order[0],
+          product_id: productId,
+          buyer_name: buyerName,
+          order_at: orderAt,
           status: -1,
           quantity: quantity
         }
@@ -46,6 +53,9 @@ class OrderController {
         result: 'ok',
         ret: {
           order_id: order[0],
+          product_id: productId,
+          buyer_name: buyerName,
+          order_at: orderAt,
           status: 1,
           quantity: quantity
         }
