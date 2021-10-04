@@ -59,7 +59,7 @@ none
             "image": "img_01"
         },
         {
-            "name": "productA",
+            "name": "productB",
             "price": 20,
             "image": "img_02"
         },
